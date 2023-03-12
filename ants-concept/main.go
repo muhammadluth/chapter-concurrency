@@ -37,6 +37,7 @@ func main() {
 	go AutoTune(pool, config)
 
 	for i := 0; i < runTimes; i++ {
+		wg.Add(1)
 		pool.Submit(
 			func() {
 				sendMessage(i, &wg)
@@ -78,7 +79,6 @@ func AutoTune(pool *ants.Pool, config model.Config) {
 func sendMessage(id int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	atomic.AddInt32(&runningTasks, +1)
-	wg.Add(1)
 	fmt.Printf("START - SEND MESSAGE '%v' at %v\n", id, time.Now().Format(time.RFC3339Nano))
 	time.Sleep(1 * time.Second)
 	fmt.Printf("FINISH - SEND MESSAGE '%v' at %v\n", id, time.Now().Format(time.RFC3339Nano))
