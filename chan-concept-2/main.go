@@ -33,8 +33,6 @@ func main() {
 
 	close(chMessages)
 
-	wg.Wait()
-
 	// resource limit :
 	// 100 milicore cpu
 	// 100 mb memory
@@ -46,6 +44,8 @@ func main() {
 	fmt.Println("------------------------------------------------------------------")
 	end := time.Now()
 	fmt.Printf("END - %v. Time Since : %v\n", end.Format(time.RFC3339Nano), time.Since(start))
+
+	wg.Wait()
 }
 
 func worker(wg *sync.WaitGroup, chMessage chan string) {
@@ -59,7 +59,7 @@ func readMessages() []string {
 	messages := []string{}
 	max := 10000
 	for i := 0; i < max; i++ {
-		messages = append(messages, strings.Replace("hi {:username}xx!", "{:username}", fmt.Sprintf("username%d", i), 1))
+		messages = append(messages, strings.Replace("hi {:username}!", "{:username}", fmt.Sprintf("username%d", i), 1))
 	}
 	return messages
 }
