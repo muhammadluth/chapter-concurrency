@@ -40,7 +40,8 @@ func main() {
 		wg.Add(1)
 		pool.Submit(
 			func() {
-				sendMessage(i, &wg)
+				defer wg.Done()
+				sendMessage(i)
 			},
 		)
 		defer pool.Release()
@@ -76,8 +77,7 @@ func AutoTune(pool *ants.Pool, config model.Config) {
 	}
 }
 
-func sendMessage(id int, wg *sync.WaitGroup) {
-	defer wg.Done()
+func sendMessage(id int) {
 	atomic.AddInt32(&runningTasks, +1)
 	fmt.Printf("START - SEND MESSAGE '%v' at %v\n", id, time.Now().Format(time.RFC3339Nano))
 	time.Sleep(1 * time.Second)
