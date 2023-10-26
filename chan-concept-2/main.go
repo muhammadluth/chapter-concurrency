@@ -64,9 +64,8 @@ func readMessages() []string {
 	return messages
 }
 
-func sendMessage(message string) error {
+func sendMessage(message string) {
 	fmt.Printf("START - SEND MESSAGE '%v' at %v\n", message, time.Now().Format(time.RFC3339Nano))
 	time.Sleep(1 * time.Second)
 	fmt.Printf("FINISH - SEND MESSAGE '%v' at %v\n", message, time.Now().Format(time.RFC3339Nano))
-	return nil
 }
